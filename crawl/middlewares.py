@@ -7,6 +7,10 @@
 
 from scrapy import signals
 
+# from scrapy import log
+# from scrapy.http import Request
+# import tldextract
+
 
 class CrawlSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
@@ -101,3 +105,36 @@ class CrawlDownloaderMiddleware(object):
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
+
+
+# class DomainDepthMiddleware(object):
+#     def __init__(self, domain_depths, default_depth):
+#         self.domain_depths = domain_depths
+#         self.default_depth = default_depth
+#
+#     @classmethod
+#     def from_crawler(cls, crawler):
+#         settings = crawler.settings
+#         domain_depths = settings.getdict('DOMAIN_DEPTHS', default={})
+#         default_depth = settings.getint('DEPTH_LIMIT', 1)
+#
+#         return cls(domain_depths, default_depth)
+#
+#     def process_spider_output(self, response, result, spider):
+#         def _filter(request):
+#             if isinstance(request, Request):
+#                 # get max depth per domain
+#                 domain = tldextract.extract(request.url).registered_domain
+#                 maxdepth = self.domain_depths.get(domain, self.default_depth)
+#
+#                 depth = response.meta.get('depth', 0) + 1
+#                 request.meta['depth'] = depth
+#
+#                 if maxdepth and depth > maxdepth:
+#                     log.msg(format="Ignoring link (depth > %(maxdepth)d): %(requrl)s ",
+#                             level=log.DEBUG, spider=spider,
+#                             maxdepth=maxdepth, requrl=request.url)
+#                     return False
+#             return True
+#
+#         return (r for r in result or () if _filter(r))

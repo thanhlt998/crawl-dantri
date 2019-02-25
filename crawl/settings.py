@@ -89,5 +89,16 @@ ROBOTSTXT_OBEY = True
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
-DEPTH_LIMIT = 0
-DOWNLOADER_STATS = False
+# DEPTH_LIMIT = 0
+# DOWNLOADER_STATS = False
+# DUPEFILTER_CLASS = 'scrapy.dupefilters.BaseDupeFilter'
+
+# SPIDER_MIDDLEWARES = {
+#     'crawl.middlewares.DomainDepthMiddleware': 900,
+#     'scrapy.contrib.spidermiddleware.depth.DepthMiddleware': None
+# }
+
+# DOMAIN_DEPTHS = {
+#     'dantri.com.vn': 1000,
+#     'thanhnien.vn': 1000
+# }

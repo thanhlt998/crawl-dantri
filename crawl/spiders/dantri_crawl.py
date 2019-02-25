@@ -1,4 +1,5 @@
 import scrapy
+from scrapy import Request
 
 
 class NewsSpider(scrapy.Spider):
@@ -7,7 +8,7 @@ class NewsSpider(scrapy.Spider):
     MAX_NO_NEWS = 1000
 
     start_urls = [
-        'https://dantri.com.vn/kinh-doanh.htm'
+        'https://dantri.com.vn/tinh-yeu-gioi-tinh.htm'
     ]
 
     def parse(self, response):
@@ -16,13 +17,15 @@ class NewsSpider(scrapy.Spider):
         for url in urls:
             if self.noNews < self.MAX_NO_NEWS:
                 news_content_url = response.urljoin(url)
-                yield response.follow(news_content_url, self.parse_content)
+                # yield response.follow(news_content_url, self.parse_content)
+                yield Request(news_content_url, self.parse_content)
             else:
                 break
 
         if next_page is not None and self.noNews < self.MAX_NO_NEWS:
             next_page_url = response.urljoin(next_page)
-            yield response.follow(next_page_url, self.parse)
+            # yield response.follow(next_page_url, self.parse)
+            yield Request(next_page_url, self.parse)
 
     def parse_content(self, response):
         self.noNews += 1
@@ -31,8 +34,8 @@ class NewsSpider(scrapy.Spider):
         contents = response.css("#divNewsContent p::text").getall()
 
         f = open("%s/%s.txt" % (self.start_urls[0].split('/')[3].split('.')[0], self.noNews), mode="a", encoding="UTF8")
-        f.write(title.strip() + ' ')
-        f.write(span.strip() + ' ')
+        f.write(title.strip() + '. ')
+        f.write(span.strip() + '. ')
         for content in contents:
             f.write(content.strip())
         f.close()
